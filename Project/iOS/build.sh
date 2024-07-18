@@ -38,11 +38,12 @@ build_lib()
 build_lib armv7 iPhoneOS "$PWD/native/armv7"
 build_lib armv7s iPhoneOS "$PWD/native/armv7s"
 build_lib arm64 iPhoneOS "$PWD/native/arm64"
-# build_lib i386 iPhoneSimulator "$PWD/native/i386"
-# build_lib x86_64 iPhoneSimulator "$PWD/native/x86_64"
+build_lib i386 iPhoneSimulator "$PWD/native/i386"
+build_lib x86_64 iPhoneSimulator "$PWD/native/x86_64"
 
 LIPO=$(xcrun -sdk iphoneos -find lipo)
 
-# $LIPO -create $PWD/native/armv7/lib/libmediainfo.a $PWD/native/armv7s/lib/libmediainfo.a $PWD/native/arm64/lib/libmediainfo.a $PWD/native/x86_64/lib/libmediainfo.a $PWD/native/i386/lib/libmediainfo.a -output $PWD/libmediainfo.a
-$LIPO -create $PWD/native/armv7/lib/libmediainfo.a $PWD/native/armv7s/lib/libmediainfo.a $PWD/native/arm64/lib/libmediainfo.a -output $PWD/libmediainfo.a
+$LIPO -create $PWD/native/armv7/lib/libmediainfo.a $PWD/native/armv7s/lib/libmediainfo.a $PWD/native/arm64/lib/libmediainfo.a $PWD/native/x86_64/lib/libmediainfo.a $PWD/native/i386/lib/libmediainfo.a -output $PWD/libmediainfo.a
+# this line takes out the iPhoneSimulators from the build
+# $LIPO -create $PWD/native/armv7/lib/libmediainfo.a $PWD/native/armv7s/lib/libmediainfo.a $PWD/native/arm64/lib/libmediainfo.a -output $PWD/libmediainfo.a
 
