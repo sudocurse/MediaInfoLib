@@ -68,8 +68,10 @@ struct Node
     //Destructor
     ~Node()
     {
-        for (size_t Pos=0; Pos<Childs.size(); Pos++)
+        for (size_t Pos=0; Pos<Childs.size(); Pos++) {
+            printf("%p: %s", Childs[Pos], Childs[Pos]->Name.c_str());
             delete Childs[Pos];
+        }
     }
 
     //Add_Child functions
