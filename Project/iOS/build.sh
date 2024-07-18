@@ -17,8 +17,8 @@ build_lib()
         host="arm"
     fi
 
-    export CC="$(xcrun -sdk iphoneos -find clang)"
-    export CXX="$(xcrun -sdk iphoneos -find clang++)"
+    export CC="ccache $(xcrun -sdk iphoneos -find clang)"
+    export CXX="ccache $(xcrun -sdk iphoneos -find clang++)"
     export AR="$(xcrun -sdk iphoneos -find ar)"
     export RANLIB="$(xcrun -sdk iphoneos -find ranlib)"
     export CFLAGS="-stdlib=libc++ -arch ${target} -isysroot $PLATFORMPATH/$platform.platform/Developer/SDKs/$platform.sdk -miphoneos-version-min=$IPHONEOS_DEPLOYMENT_TARGET"
@@ -26,7 +26,9 @@ build_lib()
     export LDFLAGS="-stdlib=libc++ -arch ${target} -isysroot $PLATFORMPATH/$platform.platform/Developer/SDKs/$platform.sdk"
 
     pushd "$(dirname "${BASH_SOURCE[0]}")/../GNU/Library"
-        ./configure --prefix="$prefix" --disable-shared --enable-static --host=$host-apple-darwin
+        pwd
+        ./configure --prefix="$prefix" --disable-shared --enable-static \
+                            --host=$host-apple-darwin --enable-debug
         make clean
         make
         make install
@@ -36,9 +38,11 @@ build_lib()
 build_lib armv7 iPhoneOS "$PWD/native/armv7"
 build_lib armv7s iPhoneOS "$PWD/native/armv7s"
 build_lib arm64 iPhoneOS "$PWD/native/arm64"
-build_lib i386 iPhoneSimulator "$PWD/native/i386"
-build_lib x86_64 iPhoneSimulator "$PWD/native/x86_64"
+# build_lib i386 iPhoneSimulator "$PWD/native/i386"
+# build_lib x86_64 iPhoneSimulator "$PWD/native/x86_64"
 
 LIPO=$(xcrun -sdk iphoneos -find lipo)
 
-$LIPO -create $PWD/native/armv7/lib/libmediainfo.a $PWD/native/armv7s/lib/libmediainfo.a $PWD/native/arm64/lib/libmediainfo.a $PWD/native/x86_64/lib/libmediainfo.a $PWD/native/i386/lib/libmediainfo.a -output $PWD/libmediainfo.a
+# $LIPO -create $PWD/native/armv7/lib/libmediainfo.a $PWD/native/armv7s/lib/libmediainfo.a $PWD/native/arm64/lib/libmediainfo.a $PWD/native/x86_64/lib/libmediainfo.a $PWD/native/i386/lib/libmediainfo.a -output $PWD/libmediainfo.a
+$LIPO -create $PWD/native/armv7/lib/libmediainfo.a $PWD/native/armv7s/lib/libmediainfo.a $PWD/native/arm64/lib/libmediainfo.a -output $PWD/libmediainfo.a
+

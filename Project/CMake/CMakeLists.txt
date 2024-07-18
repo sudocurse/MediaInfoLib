@@ -398,6 +398,9 @@ target_include_directories(mediainfo PRIVATE
   ${MediaInfoLib_SOURCES_PATH}/ThirdParty/sha2-gladman/
   ${MediaInfoLib_SOURCES_PATH}/ThirdParty/hmac-gladman/)
 
+#set(CMAKE_C_FLAGS_INIT "-fsanitize=leak")
+#set(CMAKE_CXX_FLAGS_INIT "-fsanitize=leak")
+
 if(NOT TinyXML_FOUND)
   target_include_directories(mediainfo PRIVATE ${MediaInfoLib_SOURCES_PATH}/ThirdParty/tinyxml2/)
 else()
@@ -469,3 +472,9 @@ install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/MediaInfoLibConfig.cmake
   ${CMAKE_CURRENT_BINARY_DIR}/MediaInfoLibConfigVersion.cmake
   DESTINATION ${MediaInfoLib_CONFIG_INSTALL_DIR})
+
+
+add_executable(HowToUse ${CMAKE_CURRENT_SOURCE_DIR}/../../Source/Example/HowToUse.cpp)
+target_link_libraries(HowToUse mediainfo)
+target_include_directories(HowToUse PRIVATE ${INCLUDE_INSTALL_DIR})
+
