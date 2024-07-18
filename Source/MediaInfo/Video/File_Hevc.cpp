@@ -1636,8 +1636,8 @@ void File_Hevc::video_parameter_set()
             else
                 cprms_present_flag=true;
             hrd_parameters(cprms_present_flag, vps_max_sub_layers_minus1, xxL_Common, NAL, VCL);
-            delete xxL_Common; xxL_Common=NULL; //TODO: keep VPS hrd_parameters
-            delete NAL; NAL=NULL;
+            // delete xxL_Common; xxL_Common=NULL; //TODO: keep VPS hrd_parameters
+            delete NAL; NAL=NULL; // why are these even used then??
             delete VCL; VCL=NULL;
         }
     TEST_SB_END();
@@ -4358,6 +4358,8 @@ void File_Hevc::hrd_parameters(bool commonInfPresentFlag, int8u maxNumSubLayersM
             sub_layer_hrd_parameters(xxL_Common, bit_rate_scale, cpb_size_scale, cpb_cnt_minus1, NAL); //TODO: save HRD per NumSubLayer
         if (vcl_hrd_parameters_present_flag)
             sub_layer_hrd_parameters(xxL_Common, bit_rate_scale, cpb_size_scale, cpb_cnt_minus1, VCL); //TODO: save HRD per NumSubLayer
+        
+        delete xxL_Common;
     }
 }
 
@@ -4401,9 +4403,9 @@ void File_Hevc::sub_layer_hrd_parameters(seq_parameter_set_struct::vui_parameter
     }
 
     //Filling
-    hrd_parameters_Item_=new seq_parameter_set_struct::vui_parameters_struct::xxl(
-                                                                                    SchedSel
-                                                                                 );
+    // hrd_parameters_Item_=new seq_parameter_set_struct::vui_parameters_struct::xxl(
+    //                                                                                SchedSel
+    //                                                                             );
 }
 
 //---------------------------------------------------------------------------
