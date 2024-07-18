@@ -2788,6 +2788,7 @@ Ztring MediaInfo_Internal::Inform(std::vector<MediaInfo_Internal*>& Info)
                     return __T("Error during zlib compression");
                 }
                 Inform_Cache.assign((char*)Compressed, (size_t)Compressed_Size);
+                delete[] Compressed;
             }
             if (base64)
             {
